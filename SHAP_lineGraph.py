@@ -6,15 +6,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # load data
-sheetname = 'Negative'
-sheetname2 = 'Positive'
-sheetname3 = 'TRUE_All'
-sheetname4 = 'FAKE_All'
+sheetname = 'fake_negative'
+sheetname2 = 'fake_positive'
+sheetname3 = 'true_negative'
+sheetname4 = 'true_positive'
 excelname = 'Dataset_label.xlsx'
-# sheetname = 'fake_negative'
-# sheetname2 = 'fake_positive'
-# sheetname3 = 'true_negative'
-# sheetname4 = 'true_positive'
+# sheetname = 'Negative'
+# sheetname2 = 'Positive'
+# sheetname3 = 'TRUE_All'
+# sheetname4 = 'FAKE_All'
+
 data_train = pd.read_excel(excelname, sheet_name='train')
 data_test = pd.read_excel(excelname, sheet_name=sheetname)
 data_test2 = pd.read_excel(excelname, sheet_name=sheetname2)
@@ -77,34 +78,34 @@ sum_values2, std_values2 = process_shap_values(shap_values2)
 sum_values3, std_values3 = process_shap_values(shap_values3)
 sum_values4, std_values4 = process_shap_values(shap_values4)
 
+# 调整字体大小
 plt.rcParams['font.family'] = 'Times New Roman'
-
+plt.rcParams.update({'font.size': 28})  # 设置全局字体大小
 plt.figure(figsize=(14, 10))
 
 x = np.arange(len(sum_values1))  # 动态计算长度
 
 plt.errorbar(x, sum_values1, fmt='-o', capsize=5, capthick=2, elinewidth=2,
-             label=sheetname, color='#4C72B0', ecolor='#FF9999', linestyle='-', marker='o', markersize=8)
+             label='Fake_Negative', color='#4C72B0', ecolor='#FF9999', linestyle='-', marker='o', markersize=10)
 
 plt.errorbar(x, sum_values2, fmt='-s', capsize=5, capthick=2, elinewidth=2,
-             label=sheetname2, color='#55A868', ecolor='#FFCC00', linestyle='-', marker='s', markersize=8)
+             label='Fake_Positive', color='#55A868', ecolor='#FFCC00', linestyle='-', marker='s', markersize=10)
 
 plt.errorbar(x, sum_values3, fmt='-^', capsize=5, capthick=2, elinewidth=2,
-             label=sheetname3, color='#C44E52', ecolor='#6A3D9A', linestyle='-.', marker='^', markersize=8)
+             label='Real_Negative', color='#C44E52', ecolor='#6A3D9A', linestyle='-.', marker='^', markersize=10)
 
 plt.errorbar(x, sum_values4, fmt='-d', capsize=5, capthick=2, elinewidth=2,
-             label=sheetname4, color='#8172B3', ecolor='#FFA07A', linestyle='-.', marker='d', markersize=8)
+             label='Real_Positive', color='#8172B3', ecolor='#FFA07A', linestyle='-.', marker='d', markersize=10)
 
-plt.xticks(x, [f'Level {i}' for i in x], fontsize=14)
-plt.xlabel('Sarcasm Levels', fontsize=18, weight='bold')
-plt.ylabel('Sum Of SHAP Value', fontsize=18, weight='bold')
-
+plt.xticks(x, [f'Level {i}' for i in x], fontsize=22, fontweight='bold')
+plt.xlabel('Sarcasm Levels', fontsize=26, fontweight='bold')
+plt.ylabel('Sum Of SHAP Value', fontsize=26, fontweight='bold')
 
 plt.grid(True, linestyle='--', alpha=0.7)
-plt.legend(fontsize=12, loc='upper right', frameon=True, fancybox=True)
+plt.legend(prop={'size': 22, 'weight': 'bold'}, loc='upper right', frameon=True, fancybox=True)
 
 plt.tight_layout()
 
-plt.savefig('Figure_5.jpg', dpi=1200, bbox_inches='tight')
+plt.savefig('Figure_4.eps', dpi=1200, bbox_inches='tight')
 
 plt.show()
